@@ -2,31 +2,18 @@
 /**
  * 多多客获取爆款排行商品接口
  *
- * @link: https://open.pinduoduo.com/#/apidocument/port?portId=pdd.ddk.top.goods.list.query
- * @author Ken.Zhang <kenphp@yeah.net>
- * Date: 2019/9/22
+ * @link: https://open.pinduoduo.com/application/document/api?id=pdd.ddk.top.goods.list.query
+ * @author Zhange <kenphp@yeah.net>
+ * Date: 2020/12/21
  * Time: 21:01
  */
 namespace LuBan\Pop\Requests;
 
+use LuBan\Pop\Exceptions\ParameterException;
 use LuBan\Pop\Interfaces\Request;
 
 class PddDdkTopGoodsListQueryRequest implements Request
 {
-
-    /**
-     * 接口
-     *
-     * @var string
-     */
-    public $method = 'pdd.ddk.top.goods.list.query';
-
-    /**
-     * 请求方式
-     *
-     * @var string
-     */
-    public $requestType = 'post';
 
     private $p_id; // 推广位ID
 
@@ -81,12 +68,21 @@ class PddDdkTopGoodsListQueryRequest implements Request
         $this->apiParams['custom_parameters'] = $val;
     }
 
-    /**
-     * 获取参数
-     */
-    public function getParams()
+    public function getApiMethodName()
+    {
+        return 'pdd.ddk.top.goods.list.query';
+    }
+
+    public function getApiParas()
     {
         return $this->apiParams;
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function check()
+    {
+        // TODO: Implement check() method.
+    }
 }
