@@ -1,32 +1,19 @@
 <?php
 /**
- * 获取Access Token
+ * 查询是否绑定备案
  *
  * @link https://open.pinduoduo.com/application/document/api?id=pdd.ddk.member.authority.query
- * @author Ken.Zhang <kenphp@yeah.net>
- * Date: 2020/08/12
+ * @author Zhange <kenphp@yeah.net>
+ * Date: 2020/12/21
  * Time: 21:01
  */
 namespace LuBan\Pop\Requests;
 
+use LuBan\Pop\Exceptions\ParameterException;
 use LuBan\Pop\Interfaces\Request;
 
 class PddDdkMemberAuthorityQueryRequest implements Request
 {
-
-    /**
-     * 接口
-     *
-     * @var string
-     */
-    public $method = 'pdd.ddk.member.authority.query';
-
-    /**
-     * 请求方式
-     *
-     * @var string
-     */
-    public $requestType = 'post';
 
     private $pid; // 推广位id
 
@@ -49,12 +36,21 @@ class PddDdkMemberAuthorityQueryRequest implements Request
         $this->apiParams['custom_parameters'] = $val;
     }
 
-    /**
-     * 获取参数
-     */
-    public function getParams()
+    public function getApiMethodName()
+    {
+        return 'pdd.ddk.member.authority.query';
+    }
+
+    public function getApiParas()
     {
         return $this->apiParams;
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function check()
+    {
+        // TODO: Implement check() method.
+    }
 }
