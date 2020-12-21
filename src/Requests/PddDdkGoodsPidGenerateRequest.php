@@ -2,38 +2,27 @@
 /**
  * 创建多多进宝推广位
  *
- * @link https://open.pinduoduo.com/#/apidocument/port?portId=pdd.ddk.goods.pid.generate
- * @author Ken.Zhang <kenphp@yeah.net>
- * Date: 2019/9/22
+ * @link https://open.pinduoduo.com/application/document/api?id=pdd.ddk.goods.pid.generate
+ * @author Zhange <kenphp@yeah.net>
+ * Date: 2020/12/21
  * Time: 21:01
  */
 namespace LuBan\Pop\Requests;
 
+use LuBan\Pop\Exceptions\ParameterException;
 use LuBan\Pop\Interfaces\Request;
+use LuBan\Pop\Libs\RequestParamCheckUtil;
 
 class PddDdkGoodsPidGenerateRequest implements Request
 {
-
-    /**
-     * 接口
-     *
-     * @var string
-     */
-    public $method = 'pdd.ddk.goods.pid.generate';
-
-    /**
-     * 请求方式
-     *
-     * @var string
-     */
-    public $requestType = 'post';
 
     private $number; // 要生成的推广位数量，默认为10，范围为：1~100
 
     private $p_id_name_list; // 推广位名称，例如["1","2"]
 
-    private $apiParams = [];
+    private $media_id; // 媒体id
 
+    private $apiParams = [];
 
 
     public function setNumber($val)
@@ -48,12 +37,28 @@ class PddDdkGoodsPidGenerateRequest implements Request
         $this->apiParams['p_id_name_list'] = $val;
     }
 
-    /**
-     * 获取参数
-     */
-    public function getParams()
+    public function setMediaId($val)
+    {
+        $this->media_id = (int)$val;
+        $this->apiParams['media_id'] = (int)$val;
+    }
+
+    public function getApiMethodName()
+    {
+        return 'pdd.ddk.goods.pid.generate';
+    }
+
+    public function getApiParas()
     {
         return $this->apiParams;
     }
 
+    /**
+     * @throws ParameterException
+     */
+    public function check()
+    {
+        RequestParamCheckUtil::checkMinValue($this->number, 1, 'number');
+        RequestParamCheckUtil::checkMaxValue($this->number, 100, 'number');
+    }
 }
