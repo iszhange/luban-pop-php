@@ -2,3 +2,4 @@
 composer.lock
 vendor
 *.cache
+tests/configs.php
