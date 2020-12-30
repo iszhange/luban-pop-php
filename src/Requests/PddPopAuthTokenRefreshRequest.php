@@ -4,30 +4,19 @@
  *
  * @link: https://open.pinduoduo.com/application/document/api?id=pdd.pop.auth.token.refresh
  *
- * User: Ken.Zhang <kenphp@yeah.net>
- * Date: 2020/06/27
+ * User: zhange <kenphp@yeah.net>
+ * Date: 2020/12/30
  * Time: 21:01
  */
 namespace LuBan\Pop\Requests;
 
+use LuBan\Pop\Exceptions\ParameterException;
 use LuBan\Pop\Interfaces\Request;
+use LuBan\Pop\Libs\RequestParamCheckUtil;
 
 class PddPopAuthTokenRefreshRequest implements Request
 {
-
-    /**
-     * 接口
-     *
-     * @var string
-     */
-    public $method = 'pdd.pop.auth.token.refresh';
-
-    /**
-     * 请求方式
-     *
-     * @var string
-     */
-    public $requestType = 'post';
+    private $grantType = 'refresh_token';
 
     private $refreshToken;   // refresh_token
 
@@ -40,13 +29,23 @@ class PddPopAuthTokenRefreshRequest implements Request
         $this->apiParams['refresh_token'] = (string)$val;
     }
 
-    /**
-     * 获取参数
-     */
-    public function getParams()
+    public function getApiMethodName()
     {
-        $this->apiParams['grant_type'] = 'refresh_token';
+        return 'pdd.pop.auth.token.refresh';
+    }
+
+    public function getApiParas()
+    {
+        $this->apiParams['grant_type'] = $this->grantType;
         return $this->apiParams;
     }
 
+    /**
+     * @inheritDoc
+     * @throws \Exception
+     */
+    public function check()
+    {
+        RequestParamCheckUtil::checkNotNull($this->refreshToken, 'refresh_token');
+    }
 }

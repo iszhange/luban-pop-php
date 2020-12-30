@@ -4,30 +4,20 @@
  *
  * @link: https://open.pinduoduo.com/application/document/api?id=pdd.pop.auth.token.create
  *
- * User: Ken.Zhang <kenphp@yeah.net>
- * Date: 2020/06/27
+ * User: zhange <kenphp@yeah.net>
+ * Date: 2020/12/30
  * Time: 21:01
  */
 namespace LuBan\Pop\Requests;
 
+use LuBan\Pop\Exceptions\ParameterException;
 use LuBan\Pop\Interfaces\Request;
+use LuBan\Pop\Libs\RequestParamCheckUtil;
 
 class PddPopAuthTokenCreateRequest implements Request
 {
 
-    /**
-     * 接口
-     *
-     * @var string
-     */
-    public $method = 'pdd.pop.auth.token.create';
-
-    /**
-     * 请求方式
-     *
-     * @var string
-     */
-    public $requestType = 'post';
+    private $grantType = 'authorization_code';
 
     private $code;   // 授权code
 
@@ -40,13 +30,23 @@ class PddPopAuthTokenCreateRequest implements Request
         $this->apiParams['code'] = (string)$val;
     }
 
-    /**
-     * 获取参数
-     */
-    public function getParams()
+    public function getApiMethodName()
     {
-        $this->apiParams['grant_type'] = 'authorization_code';
+        return 'pdd.pop.auth.token.create';
+    }
+
+    public function getApiParas()
+    {
+        $this->apiParams['grant_type'] = $this->grantType;
         return $this->apiParams;
     }
 
+    /**
+     * @inheritDoc
+     * @throws \Exception
+     */
+    public function check()
+    {
+        RequestParamCheckUtil::checkNotNull($this->code, 'code');
+    }
 }
