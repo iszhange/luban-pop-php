@@ -7,9 +7,9 @@
  * Date: 2019/9/22
  * Time: 21:01
  */
-namespace LuBan\Pop\Requests;
+namespace OpenSDK\PinDuoDuo\Requests;
 
-use LuBan\Pop\Interfaces\Request;
+use OpenSDK\PinDuoDuo\Interfaces\Request;
 
 class PddDdkAllOrderListIncrementGetRequest implements Request
 {
