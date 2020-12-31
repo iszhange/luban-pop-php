@@ -2,35 +2,25 @@
 /**
  * 多多进宝推广位创建接口
  *
- * @link https://open.pinduoduo.com/#/apidocument/port?portId=pdd.ddk.oauth.goods.pid.generate
+ * @link https://open.pinduoduo.com/application/document/api?id=pdd.ddk.oauth.goods.pid.generate
  * @author Ken.Zhang <kenphp@yeah.net>
- * Date: 2019/9/22
+ * Date: 2020/12/31
  * Time: 21:01
  */
 namespace LuBan\Pop\Requests;
 
+use LuBan\Pop\Exceptions\ParameterException;
 use LuBan\Pop\Interfaces\Request;
+use LuBan\Pop\Libs\RequestParamCheckUtil;
 
 class PddDdkOauthGoodsPidGenerateRequest implements Request
 {
 
-    /**
-     * 接口
-     *
-     * @var string
-     */
-    public $method = 'pdd.ddk.oauth.goods.pid.generate';
-
-    /**
-     * 请求方式
-     *
-     * @var string
-     */
-    public $requestType = 'post';
-
     private $number; // 要生成的推广位数量，默认为10，范围为：1~100
 
-    private $p_id_name_list; // 推广位名称，例如["1","2"]
+    private $pidNameList; // 推广位名称，例如["1","2"]
+
+    private $mediaId; // 媒体id
 
     private $apiParams = [];
 
@@ -42,18 +32,35 @@ class PddDdkOauthGoodsPidGenerateRequest implements Request
         $this->apiParams['number'] = (int)$val;
     }
 
-    public function setPidNameList(string $val)
+    public function setPidNameList(array $val)
     {
-        $this->p_id_name_list = $val;
-        $this->apiParams['p_id_name_list'] = $val;
+        $this->pidNameList = json_encode($val);
+        $this->apiParams['p_id_name_list'] = json_encode($val);
     }
 
-    /**
-     * 获取参数
-     */
-    public function getParams()
+    public function setMediaId($val)
+    {
+        $this->mediaId = (int)$val;
+        $this->apiParams['media_id'] = (int)$val;
+    }
+
+    public function getApiMethodName()
+    {
+        return 'pdd.ddk.oauth.goods.pid.generate';
+    }
+
+    public function getApiParas()
     {
         return $this->apiParams;
     }
 
+    /**
+     * @inheritDoc
+     * @throws \Exception
+     */
+    public function check()
+    {
+        RequestParamCheckUtil::checkMinValue($this->number, 1,'number');
+        RequestParamCheckUtil::checkMaxValue($this->number, 100,'number');
+    }
 }
