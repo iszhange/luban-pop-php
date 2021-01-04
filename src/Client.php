@@ -7,16 +7,12 @@ use LuBan\Pop\Libs\Format;
 class Client
 {
 
-    const HTTP_GATEWAY = 'http://gw-api.pinduoduo.com/api/router';
-
-    const HTTPS_GATEWAY = 'https://gw-api.pinduoduo.com/api/router';
-
     /**
      * 接口地址
      *
      * @var string
      */
-    public $gateway = self::HTTP_GATEWAY;
+    public $gateway = 'https://gw-api.pinduoduo.com/api/router';
 
     /**
      * AppKey
