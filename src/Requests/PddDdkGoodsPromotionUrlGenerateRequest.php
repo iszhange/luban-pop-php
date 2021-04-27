@@ -18,6 +18,8 @@ class PddDdkGoodsPromotionUrlGenerateRequest implements Request
 
     private $crash_gift_id; // 多多礼金ID
 
+    private $cash_gift_name; // 自定义礼金标题，用于向用户展示渠道专属福利，不超过12个字
+
     private $custom_parameters; // 自定义参数，为链接打上自定义标签。自定义参数最长限制64个字节
 
     private $generate_authority_url; // 是否生成带授权的单品链接。如果未授权，则会走授权流程
@@ -30,13 +32,11 @@ class PddDdkGoodsPromotionUrlGenerateRequest implements Request
 
     private $generate_short_url; // 是否生成短链接，true-是，false-否
 
-    private $generate_weiboapp_webview; // 是否生成微博推广链接
-
     private $generate_we_app; // 是否生成小程序推广
 
-    private $goods_id_list; // 商品ID，仅支持单个查询
-
-    private $goods_sign; // 商品goodsSign，用于查询指定商品，仅支持单个查询。
+    private $goods_sign_list; // 商品goodsSign列表，例如：["c9r2omogKFFAc7WBwvbZU1ikIb16_J3CTa8HNN"]，支持批量生链。
+                              // goodsSign是加密后的goodsId, goodsId已下线，请使用goodsSign来替代。
+                              // 使用说明：https://jinbao.pinduoduo.com/qa-system?questionId=252
 
     private $multi_group; // true--生成多人团推广链接 false--生成单人团推广链接（默认false）
                           // 1、单人团推广链接：用户访问单人团推广链接，可直接购买商品无需拼团。
@@ -44,11 +44,7 @@ class PddDdkGoodsPromotionUrlGenerateRequest implements Request
 
     private $p_id; // 推广位ID
 
-    private $room_id_list; // 直播间id列表，如果生成直播间推广链接该参数必填，goods_id_list填[1]
-
     private $search_id; // 搜索id，建议填写，提高收益。来自pdd.ddk.goods.recommend.get、pdd.ddk.goods.search、pdd.ddk.top.goods.list.query等接口
-
-    private $target_id_list; // 直播预约id列表，如果生成直播间预约推广链接该参数必填，goods_id_list填[1]，room_id_list不填
 
     private $zs_duo_id; // 招商多多客ID
 
@@ -59,6 +55,12 @@ class PddDdkGoodsPromotionUrlGenerateRequest implements Request
     {
         $this->crash_gift_id = (int)$val;
         $this->apiParams['crash_gift_id'] = (int)$val;
+    }
+
+    public function setCashGiftName($val)
+    {
+        $this->cash_gift_name = (string)$val;
+        $this->apiParams['cash_gift_name'] = (string)$val;
     }
 
     public function setCustomParameters($val)
@@ -97,28 +99,16 @@ class PddDdkGoodsPromotionUrlGenerateRequest implements Request
         $this->apiParams['generate_short_url'] = (bool)$val;
     }
 
-    public function setGenerateWeiboappWebview($val)
-    {
-        $this->generate_weiboapp_webview = (bool)$val;
-        $this->apiParams['generate_weiboapp_webview'] = (bool)$val;
-    }
-
     public function setGenerateWeApp($val)
     {
         $this->generate_we_app = (bool)$val;
         $this->apiParams['generate_we_app'] = (bool)$val;
     }
 
-    public function setGoodsIdList(array $val)
+    public function setGoodsSignList(array $val)
     {
-        $this->goods_id_list = json_encode($val);
-        $this->apiParams['goods_id_list'] = json_encode($val);
-    }
-
-    public function setGoodsSign($val)
-    {
-        $this->goods_sign = (string)$val;
-        $this->apiParams['goods_sign'] = (string)$val;
+        $this->goods_sign_list = json_encode($val);
+        $this->apiParams['goods_sign_list'] = json_encode($val);
     }
 
     public function setMultiGroup($val)
@@ -133,22 +123,10 @@ class PddDdkGoodsPromotionUrlGenerateRequest implements Request
         $this->apiParams['p_id'] = (string)$val;
     }
 
-    public function setRoomIdList(array $val)
-    {
-        $this->room_id_list = json_encode($val);
-        $this->apiParams['room_id_list'] = json_encode($val);
-    }
-
     public function setSearchId($val)
     {
         $this->search_id = (string)$val;
         $this->apiParams['search_id'] = (string)$val;
-    }
-
-    public function setTargetIdList($val)
-    {
-        $this->target_id_list = (string)$val;
-        $this->apiParams['target_id_list'] = (string)$val;
     }
 
     public function setZsDuoId($val)
